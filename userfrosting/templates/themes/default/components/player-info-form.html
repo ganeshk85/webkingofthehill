@@ -1,0 +1,106 @@
+<form name="player" method="post" action="{{form_action}}">
+    <div id="form-alerts">
+    </div>
+    <div class="row">
+        {% if 'player_name' not in fields.hidden %}
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Player Name</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-edit"></i></span>
+                    <input type="text" class="form-control" name="player_name" autocomplete="off" value="{{target_player.player_name}}" placeholder="Please enter the player name" {% if 'player_name' in fields.disabled %}disabled{% endif %}>
+                </div>
+            </div>
+        </div>
+        {% endif %}     
+		{% if 'user_name' not in fields.hidden %}
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="input_user_name">User</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-paint-brush"></i></span>
+                    <select id="input_user_name" class='form-control select2' name="user_name" {% if 'user_name' in fields.disabled %}disabled{% endif %}>
+                        {% for user in user_list %}
+                        {% if user.primary_group_id != 2 %}
+                            <option value="{{user.id}}" {% if (user.id == target_player.primary_user_id) %}selected{% endif %}>{{user.user_name}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div><br>
+    <!--<div class="row">
+        <div class="col-md-12">
+            <label>Is this a Free Player? </label>&nbsp;<input type="checkbox" name="free_player" class="form-control bootstrapswitch" {% if 'free_player' in fields.disabled %}disabled{% endif %}>
+            <br/><span>Only maximum of 2 Free player allowed in this Pool</span>
+        </div>
+    </div><br/>-->
+    <div class="row">
+        {% if "submit" not in buttons.hidden %}
+        <div class="col-xs-8 col-sm-4">
+            <div class="vert-pad">
+                <button type="submit" class="btn btn-block btn-lg btn-success" data-loading-text="Please wait...">
+                    {{submit_button}}
+                </button>
+            </div>          
+        </div>
+        {% endif %}
+        {% if "edit" not in buttons.hidden %}  
+        <div class="col-xs-6 col-sm-3">
+            <div class="vert-pad">
+                <button type="button" class="btn btn-block btn-md btn-primary js-user-edit" data-id="{{target_player.id}}" data-toggle="modal">
+                    <i class="fa fa-edit"></i> Edit
+                </button>
+            </div>
+        </div>    
+        {% endif %}
+        {% if "activate" not in buttons.hidden %}
+        <div class="col-xs-6 col-sm-3">      
+            <div class="vert-pad">
+                {% if target_player.active == "0" %}
+                    <button type="button" class="btn btn-block btn-md btn-warning js-user-activate" data-id="{{target_player.id}}">
+                        <i class="fa fa-bolt"></i> Activate
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        {% if "enable" not in buttons.hidden %}
+        <div class="col-xs-6 col-sm-3">      
+            <div class="vert-pad">
+                {% if target_player.enabled == "1" %}
+                    <button type="button" class="btn btn-block btn-md btn-warning js-user-disable" data-id="{{target_player.id}}">
+                        <i class="fa fa-minus-circle"></i> Disable
+                    </button>
+                {% else %}
+                    <button type="button" class="btn btn-block btn-md btn-warning js-user-enable" data-id="{{target_player.id}}">
+                        <i class="fa fa-plus-circle"></i> Enable
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        {% if "delete" not in buttons.hidden %}
+        <div class="col-xs-6 col-sm-3">  
+            <div class="vert-pad">
+                <button type="button" class="btn btn-block btn-md btn-danger js-user-delete" data-id="{{target_player.id}}" data-user_name="{{target_player.user_name}}" data-toggle="modal">
+                    <i class="fa fa-trash-o"></i> Delete
+                </button>
+            </div>
+        </div>
+        {% endif %}
+        {% if "cancel" not in buttons.hidden %}        
+        <div class="col-xs-4 col-sm-3 pull-right">
+            <div class="vert-pad">
+                <button type="button" class="btn btn-block btn-lg btn-link" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</form>
+<script>
+// Load the validator rules for this form
+var validators = {{validators | raw}};
+</script>

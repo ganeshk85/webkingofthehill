@@ -1,0 +1,161 @@
+{% set page_group = "player" %}
+<!DOCTYPE html>
+<html lang="en">
+{% include 'components/head.html' %}
+  
+<body>
+    <div id="wrapper">
+        {% include 'components/nav-account.html' %}
+        <div id="page-wrapper">
+            {% include 'components/alerts.html' %}
+            <div class="row">
+                <div class="col-md-12">
+                <div class='panel panel-primary'>
+                <div class='panel-heading'>
+                    <h3 class='panel-title'><i class='{{icon}}'></i> {{box_title}}</h3>
+                </div>
+                <div class='panel-body'>
+                    <div class="row">
+                        {%if isadmin is same as(1) %}
+                            {% if "createPlayer" not in buttons.hidden %}
+                            <div class="col-md-6 ">
+                                <button type="button" class="btn btn-success js-player-create" data-toggle="modal" data-target="#dialog-player-create">
+                                    <i class="fa fa-plus-square"></i>  Create New Player
+                                </button>
+                            </div>
+                            {% endif %}
+                        {% endif %}
+                        {% if players is not empty %}	
+                            <div class="col-md-6 {% if ("createPlayer" not in buttons.hidden) and (isadmin is same as(1)) %} text-right {% endif %}">
+                                <!--<a href="#">View Players who did not pick teams <i class="fa fa-arrow-circle-right"></i></a>-->
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if players is not empty %}
+                    <div class="table-responsive" style="padding-top: 10px;">                        
+						 {%if isadmin is same as(1) %}
+                            <table class="tablesorter table table-bordered table-hover table-striped tablesorter-bootstrap" data-sortlist="[[2, 1]]">
+                         {% else %}
+                            <table class="tablesorter table table-bordered table-hover table-striped tablesorter-bootstrap-no-filters" data-sortlist="[[2, 1]]">
+                         {% endif %}
+                            <thead>
+                                <tr>
+                                    <th class="sorter-metatext">Player/Info<i class="fa fa-sort"></i></th>
+                                    {%if isadmin is same as(1) %}
+                                    <th class="sorter-metanum">User/Info <i class="fa fa-sort"></i></th>                                    
+                                    {% endif %}
+                                    <th class="sorter-metanum">Created on <i class="fa fa-sort"></i></th>
+                                    <th>Status/Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>													
+                                {% for user in players %}
+                                <tr>
+                                    <td data-text="{{user.player_name}}">                                        
+										{{user.player_name}}                                        
+                                    </td>  
+                                                                        {%if isadmin is same as(1) %}
+									<td>
+										 <strong>
+                                            <a href="{{site.uri.public}}/users/u/{{user.primary_user_id}}">{{user.user_name}} ({{user.display_name}})</a>
+                                        </strong>										
+									</td>
+									{% endif %}									
+									 <td data-num="{{user.sign_up_stamp | date('U')}}">
+                                        {{user.sign_up_stamp | date("l")}}<br>{{user.sign_up_stamp | date("M j, Y g:i a")}}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            {% if user.enabled == 0 %}
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                    {% if (user.enabled == 0) and (user.lost == 1) %}
+                                                        Player Lost
+                                                    {% else %}
+                                                        Disabled
+                                                    {% endif %}
+                                                    {%if user.enabled == 1 or isadmin is same as(1) %}
+                                                    <span class="caret"></span>
+                                                    {% endif %}
+                                                </button>
+                                            {% elseif user.active == 0 %}
+                                                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">                                                    
+                                                    {% if (user.active == 0) and (user.payment_status == 0) %}
+                                                        Payment Required
+                                                    {% else %}
+                                                        Not Active
+                                                    {% endif %}
+                                                    <span class="caret"></span>
+                                                </button>            
+                                            {% else %}
+                                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                    Active
+                                                    <span class="caret"></span>
+                                                </button>            
+                                            {% endif %}
+                                            {%if user.enabled == 1 or isadmin is same as(1) %}
+                                            <ul class="dropdown-menu" role="menu">                                                
+                                                <li>
+                                                    <a href="#" data-id="{{user.id}}" class="js-player-edit" data-target="#dialog-player-edit" data-toggle="modal">
+                                                    <i class="fa fa-edit"></i> Edit player
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                {%if isadmin is same as(1) %}
+                                                {% if (user.enabled == 1) and (user.active != 0) %}
+                                                    <a href="#" data-id="{{user.id}}" class="js-player-disable">
+                                                    <i class="fa fa-minus-circle"></i> Disable player
+                                                    </a>
+                                                {% elseif (user.enabled == 0) and (user.active != 0)%}
+                                                    <a href="#" data-id="{{user.id}}" class="js-player-enable">
+                                                    <i class="fa fa-plus-circle"></i> Enable player
+                                                    </a> 
+                                                {% endif %}
+                                                {% endif %}
+                                                </li>
+                                                {%if isadmin is same as(1) %}
+                                                <li>
+                                                    <a href="#" data-id="{{user.id}}" class="js-player-delete" data-player_name="{{user.player_name}}" data-target="#dialog-player-delete" data-toggle="modal">
+                                                    <i class="fa fa-trash-o"></i> Delete player</a>
+                                                </li>
+                                                {% endif %}
+                                            </ul>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}									
+                            </tbody>
+                        </table>						
+                        <div class="pager pager-lg tablesorter-pager">
+                            <span class='pager-control first' title='First page'><i class='fa fa-angle-double-left'></i></span>
+                            <span class='pager-control prev' title='Previous page'><i class='fa fa-angle-left'></i></span>
+                            <span class='pagedisplay'></span> <!-- this can be any element, including an input -->
+                            <span class='pager-control next' title='Next page'><i class='fa fa-angle-right'></i></span>
+                            <span class='pager-control last' title= 'Last page'><i class='fa fa-angle-double-right'></i></span>
+                            <br><br>
+                            Jump to Page: <select class='gotoPage'></select>
+                            &bull; Show: <select class='pagesize'>
+                                <option value='2'>2</option>
+                                <option value='5'>5</option>
+                                <option value='10'>10</option>
+                                <option value='100'>100</option>
+                            </select>
+                        </div>
+                    </div>
+					{% else %}
+					<div class="row">
+						<div class="col-md-12">
+							There are no players created for this user.<br/> Please create at least one player to play the game.<br/><br/>
+						</div>
+					</div>
+					{% endif %}                    
+                </div>
+                </div>
+                </div>
+            </div>
+            {% include 'components/footer.html' %}    
+        </div>
+    </div>
+</body>
+</html>
+

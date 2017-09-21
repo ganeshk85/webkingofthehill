@@ -1,0 +1,29 @@
+{% set navigation_bar = [['', 'Home'], ['account/login', 'Login']] %}
+{% set can_register = site.can_register|default(false) %}
+{% if can_register %}
+    {% set navigation_bar = navigation_bar|merge([['account/register', 'Register']])  %}
+{% endif%}
+{% set active_page = page.active_page|default('') %}
+{% block navigation %}
+<!-- header section -->
+<section id="top">
+	<header>                                    
+		<div class="container">                	
+			<div class="">
+				<ul class="nav navbar-nav nav-pills pull-right" id="navigation">
+				{% for item in navigation_bar %}
+				<li{% if item[0] == active_page %} class="active"{% endif%}>
+					<a role="menuitem" href="{{site.uri.public}}/{{item[0]}}">{{item[1]}}</a>
+				</li>
+				{% endfor %}    
+				</ul>
+				<!-- logo -->
+				<div id="logo">
+					<a href="/koth/html">{{site.site_title}}</a>
+				</div>    
+			</div>
+			<div class="clear"></div>
+		</div>
+	</header>               
+</section><!-- //header section -->
+{% endblock %}

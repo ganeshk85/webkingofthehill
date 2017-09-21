@@ -1,0 +1,65 @@
+/** MAIN **/
+body {
+	background: #27262e;
+	font-family: 'Open Sans', sans-serif;
+	font-weight:400;
+	font-size: 14px;
+	line-height:20px;
+	margin: 0;
+	padding: 0;
+	overflow-x:hidden !important;
+}
+html { font-size: 100%;
+}
+::selection{
+	background: #43b9b8;
+	color: #FFF;
+}
+::-moz-selection { color: #fff;  background-color: #43b9b8;
+}
+a {
+	text-decoration:none !important;
+}
+
+p {
+	padding:0;
+	margin:0 0 20px 0;
+}
+
+/** HEADER **/
+#top{
+}
+#top header{
+	height: 42px;
+	padding: 21px 0 17px 0;
+	background:#27262e;
+	border:none;
+	position:relative;
+	left:0;
+	top:0;
+	width:100%!important;
+	z-index:9999;
+}
+#logo {
+	float:left;
+	padding:0;
+	vertical-align:top;
+}
+
+#logo a {
+	font-family: 'Yesteryear', cursive;
+	font-weight:500;
+	line-height:43px;
+	font-size:30px;
+	color:#ffffff;
+}
+/* ____________________ Home ____________________ */
+#home {margin-top:80px;
+}
+#home {
+	overflow:hidden;
+	position:relative;
+	padding:0;	
+	background-image: url(../images/home_bg.jpg);
+	background-size:cover;
+}

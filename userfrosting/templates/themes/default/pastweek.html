@@ -1,0 +1,120 @@
+{% set page_group = "game" %}
+<!DOCTYPE html>
+<html lang="en">
+{% include 'components/head.html' %}
+  
+<body>
+    <div id="wrapper">
+        {% include 'components/nav-account.html' %}
+        <div id="page-wrapper">
+            {% include 'components/alerts.html' %}			
+            <div class="row">
+                <div class="col-md-12">				
+                    {% for week in game_weeks %}
+                    {% set continue = false %}
+                        <div class='panel panel-primary'>
+                        <div class='panel-heading'>
+                            <h3 class='panel-title'><i class='{{icon}}'></i> Week {{week}}</h3>
+                        </div>
+                        <div class='panel-body'>
+                            {% if past_picks is empty %}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        There is no data to show at this time. Here you can see Players Pick History.
+                                    </div>
+                                </div>
+                            {% else %}                               
+                                {% if isadmin is same as(1) %}
+                                    <div class="row">                        
+                                        <div class="col-md-12 text-right ">
+                                            <a href="#" data-id="{{week}}" class="js-display-playersnotpicked">Show Players with No Picks <i class="fa fa-arrow-circle-right"></i></a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div class="table-responsive">
+                                    {% if isadmin is same as(1) %}
+										<table class="tablesorter  tablesorter-bootstrap table table-bordered table-hover table-striped table-{{week}}">
+									{% else %}
+										<table class="tablesorter  tablesorter-bootstrap-no-filters table table-bordered table-hover table-striped table-{{week}}">
+									{% endif %}
+                                        <thead>
+                                            <tr>
+                                                <th class="sorter-metatext">Player/Info <i class="fa fa-sort"></i></th>
+                                                {% if isadmin is same as(1) %}
+                                                <th class="sorter-metatext">User/Info <i class="fa fa-sort"></i></th>
+                                                {% endif %}
+                                                <th class="sorter-metatext">Team Picked <i class="fa fa-sort"></i></th>
+                                                <th class="sorter-metanum">Picked on <i class="fa fa-sort"></i></th>
+                                                <th>Status/Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                {% for player_picked in past_picks%}
+                                                {% if player_picked.week_id != week %}
+                                                         {% set continue = true %}
+                                                {% endif %}
+                                                {% if not continue %}
+                                                <tr>
+                                                    <td data-text="{{player_picked.player_name}}">
+                                                        {{player_picked.player_name}}
+                                                    </td>
+                                                    {% if isadmin is same as(1) %}
+                                                    <td>
+                                                         <strong>
+                                                                <a href="{{site.uri.public}}/users/u/{{player_picked.primary_user_id}}">{{player_picked.user_name}}</a>
+                                                        </strong>
+                                                    </td>
+                                                    {% endif %}
+                                                    <td data-text="{{player_picked.full_name}}">
+                                                        {{player_picked.full_name}}
+                                                    </td>
+                                                    <td data-num="{{player_picked.picked_time_stamp | date('U')}}">
+                                                        {{player_picked.picked_time_stamp | date("l")}}<br>{{player_picked.picked_time_stamp | date("M j, Y g:i a")}}
+                                                    </td>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <button type="button" data-id="{{player_picked.id}}" class="btn btn-warning js-make-pick-edit" data-toggle="modal" data-target="#dialog-make-pick-create" {% if (current_week != week) or ("edit" in buttons.disabled) %}disabled{%endif%}>
+                                                                    <i class="fa fa-pencil-square-o"></i> Edit
+                                                            </button>
+                                                            <button type="button" data-id="{{player_picked.id}}" class="btn btn-danger js-make-pick-delete" data-toggle="modal" data-target="#dialog-make-pick-delete" {% if (current_week != week) or ("delete" in buttons.disabled) %}disabled{%endif%}>
+                                                                    <i class="fa fa-pencil-square-o"></i> Delete
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                            {% if continue %}
+                                                    {% set continue = false %}
+                                            {%endif%}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+					 <div class="pager pager-{{week}} pager-lg tablesorter-pager">
+                            <span class='pager-control first' title='First page'><i class='fa fa-angle-double-left'></i></span>
+                            <span class='pager-control prev' title='Previous page'><i class='fa fa-angle-left'></i></span>
+                            <span class='pagedisplay'></span> <!-- this can be any element, including an input -->
+                            <span class='pager-control next' title='Next page'><i class='fa fa-angle-right'></i></span>
+                            <span class='pager-control last' title= 'Last page'><i class='fa fa-angle-double-right'></i></span>
+                            <br><br>
+                            Jump to Page: <select class='gotoPage-{{week}}'></select>
+                            &bull; Show: <select class='pagesize'>
+                                <option value='2'>2</option>
+                                <option value='5'>5</option>
+                                <option value='10'>10</option>
+                                <option value='100'>100</option>
+                            </select>
+                        </div>
+
+                                </div>
+                            {% endif %}
+                        </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% include 'components/footer.html' %}    
+        </div>
+    </div>
+</body>
+</html>
+

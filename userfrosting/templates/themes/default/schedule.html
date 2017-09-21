@@ -1,0 +1,117 @@
+{% set page_group = "gameschedule" %}
+<!DOCTYPE html>
+<html lang="en">
+{% include 'components/head.html' %}
+  
+<body>
+    <div id="wrapper">
+        {% include 'components/nav-account.html' %}
+        <div id="page-wrapper">
+            {% include 'components/alerts.html' %}
+            <div class="row">
+                <div class="col-md-12">
+                <div class='panel panel-primary'>
+                <div class='panel-heading'>
+                    <h3 class='panel-title'><i class='{{icon}}'></i> {{box_title}}</h3>
+                </div>
+                <div class='panel-body'>
+                    {%if isadmin is same as(1) %}
+                        <div class="row">                        
+                            <div class="col-md-12 text-right ">
+                                <a href="#" class="js-update-schedule">Update Game Schedule through API <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div id="game-schedule-alerts">
+                        
+                    </div>					
+                    <div class="table-responsive" id="game-schedule-table">
+                        <table class="table table-bordered table-hover table-striped tablesorter-bootstrap">
+                            <thead>
+                                <tr>
+                                    <th class="">Away Team</th>									
+                                    <th class="">Home Team</th>                                    									
+                                    <th class="">Game Time</th>
+                                    <th>Station</th>
+                                    <th>Winner</th>
+                                </tr>
+                            </thead>
+                            <tbody>													
+                                {% for game in games %}
+                                <tr>
+                                    <td>                                        
+                                        <span class="teams_sprite {{game.away_team}}"></span> {{game.away_team}}                                        
+                                    </td>  									
+                                    <td>                                        
+                                        <span class="teams_sprite {{game.home_team}}"></span> {{game.home_team}}                                        
+                                    </td>  									
+                                    <td>                                        
+                                        {{game.game_date|date('D, M d')}} &nbsp; {{game.game_time_et}}&nbsp; ET                                  
+                                    </td>  									
+                                    <td>                                        
+                                        {{game.tv_station}}                                        
+                                    </td>  		
+                                    <td>
+                                        {% if isadmin is same as(1) %}	
+                                            {% if "now"|date('Y-m-d') < game.game_date|date('Y-m-d') %}
+                                                <p>Game not yet played</p>
+                                            {% elseif ("now"|date('Y-m-d') >= game.game_date|date('Y-m-d')) and (game.winner is empty) %}                                                
+                                                <form class='form-horizontal' role='form' name='game-schedule' action='{{site.uri.public}}/game/schedule/{{game.id}}' method='post'>																
+                                                        <select id="game_winner_{{game.id}}" class='form-control select2' name="winner">
+                                                                <option value="NONE" {% if game.winner is empty %}selected{%endif%}>Please select the winner</option>
+                                                                <option value="{{game.away_team}}" {% if (game.winner == game.away_team) %}selected{% endif %}>{{game.away_team}}</option>
+                                                                <option value="{{game.home_team}}" {% if (game.winner == game.home_team) %}selected{% endif %}>{{game.home_team}}</option>
+                                                        </select>											
+                                                </form>
+                                            {% else %}
+                                            <div>
+                                                Winner selected:
+                                                <span class="teams_sprite {{game.winner}}"></span> {{game.winner}}
+                                                <br/>
+                                                <span>Change/edit Winner</span>
+                                                <form class='form-horizontal' role='form' name='game-schedule' action='{{site.uri.public}}/game/schedule/{{game.id}}' method='post'>																
+                                                        <select id="game_winner_{{game.id}}" class='form-control select2' name="winner">																					
+                                                                <option value="{{game.away_team}}" {% if (game.winner == game.away_team) %}selected{% endif %}>{{game.away_team}}</option>
+                                                                <option value="{{game.home_team}}" {% if (game.winner == game.home_team) %}selected{% endif %}>{{game.home_team}}</option>
+                                                        </select>											
+                                                </form>
+                                            </div>                                                
+                                            {% endif %}
+                                        {% else %}
+                                            {% if game.winner is empty %}
+                                                    ---
+                                            {% else %}
+                                                    <span class="teams_sprite {{game.winner}}"></span> {{game.winner}}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}									
+                            </tbody>
+                        </table>						
+                        <div class="pager pager-lg tablesorter-pager">
+                            <span class='pager-control first' title='First page'><i class='fa fa-angle-double-left'></i></span>
+                            <span class='pager-control prev' title='Previous page'><i class='fa fa-angle-left'></i></span>
+                            <span class='pagedisplay'></span> <!-- this can be any element, including an input -->
+                            <span class='pager-control next' title='Next page'><i class='fa fa-angle-right'></i></span>
+                            <span class='pager-control last' title= 'Last page'><i class='fa fa-angle-double-right'></i></span>
+                            <br><br>
+                            Jump to Page: <select class='gotoPage'></select>
+                            &bull; Show: <select class='pagesize'>
+                                <option value='2'>2</option>
+                                <option value='5'>5</option>
+                                <option value='10'>10</option>
+                                <option value='100'>100</option>
+                            </select>
+                        </div>
+                    </div>					
+                </div>
+                </div>
+                </div>
+            </div>
+            {% include 'components/footer.html' %}    
+        </div>
+    </div>
+</body>
+</html>
+

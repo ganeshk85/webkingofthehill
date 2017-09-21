@@ -1,0 +1,105 @@
+<div class='panel panel-primary'>
+    <div class='panel-heading'>
+        <h3 class='panel-title'><i class='{{icon}}'></i> Pick Changes for {{target_user.user_name}}</h3>
+    </div>
+    <div class='panel-body'>
+        {% if target_pick_history is empty %}
+            <div class="row">
+                <div class="col-md-12">
+                    There is no data to show at this time. Here you can see the pick changes of the user
+                </div>
+            </div>
+        {% else %}                                        
+            <div class="row">                
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="">Week</th>
+                                    <th class="">Player Name</th>
+                                    <th class="">Previous Team</th>
+                                    <th class="">New Team</th>
+                                    <th class="">Changed on</th>
+                                    <!--<th class="">Status/Action</th>-->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for pick_history in target_pick_history %}
+                                <tr>
+                                    <td>{{pick_history.week_id}}</td>
+                                    <td>{{pick_history.player_name}}</td>
+                                    <td>{{pick_history.old_team}}</td>
+                                    <td>{{pick_history.new_team}}</td>
+                                    <td>{{pick_history.picked_time_stamp}}</td>
+                                    <!--<td>
+                                        <div class="btn-group">
+                                            {% if player.enabled == 0 %}
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                    {% if (player.enabled == 0) and (player.lost == 1) %}
+                                                        Player Lost
+                                                    {% else %}
+                                                        Disabled
+                                                    {% endif %}
+                                                    {%if player.enabled == 1 or isadmin is same as(1) %}
+                                                    <span class="caret"></span>
+                                                    {% endif %}
+                                                </button>
+                                            {% elseif player.active == 0 %}
+                                                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">                                                    
+                                                    {% if (player.active == 0) and (player.payment_status == 0) %}
+                                                        Payment Required
+                                                    {% else %}
+                                                        Not Active
+                                                    {% endif %}
+                                                    <span class="caret"></span>
+                                                </button>            
+                                            {% else %}
+                                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                    Active
+                                                    <span class="caret"></span>
+                                                </button>            
+                                            {% endif %}
+                                            {%if player.enabled == 1 or isadmin is same as(1) %}
+                                            <ul class="dropdown-menu" role="menu">                                                
+                                                <li>
+                                                    <a href="#" data-id="{{player.id}}" class="js-player-edit" data-target="#dialog-player-edit" data-toggle="modal">
+                                                    <i class="fa fa-edit"></i> Edit player
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                {%if isadmin is same as(1) %}
+                                                {% if (player.enabled == 1) and (player.active != 0) %}
+                                                    <a href="#" data-id="{{player.id}}" class="js-player-disable">
+                                                    <i class="fa fa-minus-circle"></i> Disable player
+                                                    </a>
+                                                {% elseif (player.enabled == 0) and (player.active != 0)%}
+                                                    <a href="#" data-id="{{player.id}}" class="js-player-enable">
+                                                    <i class="fa fa-plus-circle"></i> Enable player
+                                                    </a> 
+                                                {% endif %}
+                                                {% endif %}
+                                                </li>
+                                                {%if isadmin is same as(1) %}
+                                                <li>
+                                                    <a href="#" data-id="{{player.id}}" class="js-player-delete" data-player_name="{{player.player_name}}" data-target="#dialog-player-delete" data-toggle="modal">
+                                                    <i class="fa fa-trash-o"></i> Delete player</a>
+                                                </li>
+                                                {% endif %}
+                                            </ul>
+                                            {% endif %}
+                                        </div>
+                                    </td>-->
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+    
+
+            

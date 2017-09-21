@@ -1,0 +1,64 @@
+<div class='panel panel-primary'>
+    <div class='panel-heading'>
+        <h3 class='panel-title'><i class='{{icon}}'></i> Pick History for {{target_user.user_name}}</h3>
+    </div>
+    <div class='panel-body'>    
+		{% if target_player_pick_history is empty %}
+			<div class="row">
+				<div class="col-md-12">
+					There is no data to show at this time. Here you can see Players Pick History.
+				</div>
+			</div>
+		{% else %} 
+			<div class="row">                
+				<div class="col-md-12">									
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover table-striped">
+							<tr>
+								<td>Week/Players</td>
+								{% for player in target_players %}
+									<td style="text-align: center;">{{player.player_name}}</td>										
+								{% endfor %}
+							</tr>
+							
+							{% for week in game_weeks%}
+								{% set break = false %}
+								{% set continue = false %}
+								<tr>
+									<td style="text-align: center;">{{week}}</td>
+									{% for player in target_players %}
+										
+										{% for player_picked in target_player_pick_history if not break%}											
+											{% if week == player_picked.week_id%}
+												{% if player.id == player_picked.id %}
+													<td style="text-align: center;">{{player_picked.full_name}}</td>
+													{% set break = true %}												
+												{% endif %}
+											{% elseif week != player_picked.week_id and player.id != player_picked.id %}
+												{% set continue = true %}												
+												
+											{% else %}
+												
+											{%endif%}	
+										{% endfor %}																						
+										{% if continue and not break %}											
+											<td style="text-align: center;">---</td>													
+										{% endif %}
+										{% set break = false %}
+										
+									{% endfor %}
+									
+								</tr>
+							{% endfor %}								
+						</table>	
+					</div>
+				</div>
+			</div>    
+		{% endif %}		
+    </div>
+</div>
+    
+
+
+			
+			

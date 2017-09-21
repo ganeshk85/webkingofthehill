@@ -1,0 +1,27 @@
+{% set page_group = "loggedout" %}
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'common/components/head.html' %}
+  <body>
+	<div class="page">
+      <!-- logo and menu -->
+        {% include 'common/components/main-nav.html' %} 
+		<!-- home content -->
+		<section id="home" >
+    <div class="container">        
+      <div class="jumbotron">
+        <h1>Welcome!</h1>
+        <p class="lead">A secure, modern way to find the next King of the Hill</p>
+        {% include 'common/components/alerts.html' %}
+        <div class="row">
+            <div class="col-sm-12">
+              <a href="{{site.uri.public}}/account/login" class="btn btn-success" role="button" value="Login">Login</a>
+            </div>
+        </div>
+        {% include 'common/components/jumbotron-links.html' %}	
+      </div>	
+    </div> <!-- /container -->
+	</section><!-- //home content -->
+    {% include 'common/components/footer.html' %}	
+  </body>
+</html>

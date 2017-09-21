@@ -1,0 +1,18 @@
+{    
+    "week_id" : {        
+        "validators" : {
+
+        }
+    },
+	"team_id" : {
+        "validators" : {
+
+        }
+    },
+	"player_id" : {        
+        "validators" : {
+
+        }
+    }
+    
+}

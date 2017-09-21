@@ -1,0 +1,269 @@
+{% set page_group = "rankings" %}
+<!DOCTYPE html>
+<html lang="en">
+{% include 'components/head.html' %}
+  
+<body>
+    <div id="wrapper">
+        {% include 'components/nav-account.html' %}
+        <div id="page-wrapper">
+            {% include 'components/alerts.html' %}
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-thumbs-up fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{total_active_players}}</div>                                    
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">Total Active Players</span>                                
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-red">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-thumbs-down fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{% if total_count_players_lost is empty %} 0 {% else %} {{total_count_players_lost}} {% endif %}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">Total Players Lost</span>                                
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!--<div class="col-lg-3 col-md-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-dollar fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{total_pool_amount}}</div>                                    
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">Total Pool Amount</span>                                
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-red">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-support fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">13</div>
+                                    <div>Support Tickets!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>-->
+            </div>
+            <div class="row">                                                           
+                <div class="col-md-6 col-sm-12">
+                    <div class='panel panel-primary'>
+                        <div class='panel-heading'>
+                            <h3 class='panel-title'><i class='{{icon}}'></i> Players Still in the Pool</h3>
+                        </div>
+                        <div class='panel-body'>
+                             {% if players_won is empty %}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        There is no data to show at this time. Here you can see the list of Players that are still in the pool.
+                                    </div>
+                                </div>
+                            {% else %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="">Player Name</th>  
+                                                    <th class="">User/Info</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for player in players_won %}
+                                                <tr>
+                                                    <td>{{player.player_name}}</td>
+                                                    <td>
+                                                        <strong>
+                                                            <a href="{{site.uri.public}}/users/u/{{player.primary_user_id}}">{{player.user_name}} ({{player.display_name}})</a>
+                                                        </strong>										
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class='panel panel-primary'>
+                        <div class='panel-heading'>
+                            <h3 class='panel-title'><i class='{{icon}}'></i> Players Lost</h3>
+                        </div>
+                        <div class='panel-body'>
+                             {% if players_lost is empty %}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        There is no data to show at this time. Here you can see the list of Players Lost.
+                                    </div>
+                                </div>
+                            {% else %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="">Player Name</th>
+                                                    <th class="">User/Info</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for player in players_lost %}
+                                                <tr>
+                                                    <td>{{player.player_name}}</td>
+                                                    <td>
+                                                        <strong>
+                                                            <a href="{{site.uri.public}}/users/u/{{player.primary_user_id}}">{{player.user_name}} ({{player.display_name}})</a>
+                                                        </strong>										
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div> 
+                <div class="col-md-6 col-sm-12">
+                    <div class='panel panel-primary'>
+                        <div class='panel-heading'>
+                            <h3 class='panel-title'><i class='{{icon}}'></i> Players Who recently changed Picks</h3>
+                        </div>
+                        <div class='panel-body'>
+                            {% if target_pick_history is empty %}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        There is no data to show at this time. Here you can see the pick history of the user
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="">Week</th>
+                                                        <th class="">Player Name</th>
+                                                        <th class="">Previous Team</th>
+                                                        <th class="">New Team</th>
+                                                        <th class="">Changed By</th>
+                                                        <th class="">Changed on</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for pick_history in target_pick_history %}
+                                                    <tr>
+                                                        <td>{{pick_history.week_id}}</td>
+                                                        <td>{{pick_history.player_name}}</td>
+                                                        <td>{{pick_history.old_team}}</td>
+                                                        <td>{{pick_history.new_team}}</td>
+                                                        {%if pick_history.primary_group_id == 2 %}
+                                                            <td>Admin</td>
+                                                        {% else %}
+                                                            <td>{{pick_history.display_name}}</td>
+                                                        {% endif %}                                                        
+                                                        <td>{{pick_history.picked_time_stamp}}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>                
+            </div>            
+            {% include 'components/footer.html' %}    
+        </div>
+    </div>
+    <script>
+    $(document).ready(function() {
+        Morris.Donut({
+            element: 'morris-donut-top-fav-chart',
+            data: [
+                {% for team in teams %}
+                    {
+                        label: "{{team.full_name}}",
+                        value: {{team.numplayers}}
+                    },
+                {% endfor %}
+             ],
+            resize: true
+        });
+
+        Morris.Donut({
+            element: 'morris-donut-top-player-chart',
+            data: [
+                {% for player in players %}
+                    {
+                        label: "{{player.player_name}}",
+                        value: {{player.numgameswon}}
+                    },
+                {% endfor %}
+             ],
+            resize: true
+        });
+
+    });
+    </script>
+</body>
+</html>
+

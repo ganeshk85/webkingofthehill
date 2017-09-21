@@ -1,0 +1,144 @@
+<form name="payment" method="post" action="{{form_action}}">
+    <div id="form-alerts">
+    </div>
+    <div class="row">
+        {% if 'total_amount' not in fields.hidden %}
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Total Amount</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-edit"></i></span>
+                    <input type="text" class="form-control" name="total_amount" autocomplete="off" value="{{target_payment.total_amount}}" placeholder="" {% if 'total_amount' in fields.disabled %}disabled{% endif %}>
+                </div>
+            </div>
+        </div>
+        {% endif %}     
+        {% if 'amount_due' not in fields.hidden %}
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Amount Due</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-edit"></i></span>
+                    <input type="text" class="form-control" name="amount_due" autocomplete="off" value="{{target_payment.amount_due}}" placeholder="" {% if 'amount_due' in fields.disabled %}disabled{% endif %}>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if 'amount_paid' not in fields.hidden %}
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Amount Paid</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-edit"></i></span>
+                    <input type="text" class="form-control" name="amount_paid" autocomplete="off" value="{{target_payment.amount_paid}}" placeholder="" {% if 'amount_paid' in fields.disabled %}disabled{% endif %}>
+                </div>
+            </div>
+        </div>
+        {% endif %}                
+    </div>
+    <div class="row">
+        {% if 'pay_amount' not in fields.hidden %}
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Enter Amount</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-edit"></i></span>
+                    <input type="text" class="form-control" name="pay_amount" autocomplete="off" value="" placeholder="" {% if 'pay_amount' in fields.disabled %}disabled{% endif %}>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if 'payment_method' not in fields.hidden %}
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="input_payment_method">Select Payment Method</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-edit"></i></span>
+                    <select id="input_payment_method" class='form-control select2' name="payment_method" {% if 'payment_method' in fields.disabled %}disabled{% endif %}>                        
+                        {% for option, label in payment_methods %}
+                        <option value="{{label}}">{{label}}</option>
+                        {% endfor %}
+                    </select>                    
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if 'check_number' not in fields.hidden %}
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Check Number(if applicable)</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-edit"></i></span>
+                    <input type="text" class="form-control" name="check_number" autocomplete="off" value="" placeholder="" {% if 'check_number' in fields.disabled %}disabled{% endif %}>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div><br/>
+    <div class="row">
+        {% if "submit" not in buttons.hidden %}
+        <div class="col-xs-8 col-sm-4">
+            <div class="vert-pad">
+                <button type="submit" class="btn btn-block btn-lg btn-success" data-loading-text="Please wait..." {% if 'submit' in buttons.disabled %}disabled{% endif %}>
+                    {{submit_button}}
+                </button>
+            </div>          
+        </div>
+        {% endif %}
+        {% if "edit" not in buttons.hidden %}  
+        <div class="col-xs-6 col-sm-3">
+            <div class="vert-pad">
+                <button type="button" class="btn btn-block btn-md btn-primary js-user-edit" data-id="{{target_player.id}}" data-toggle="modal">
+                    <i class="fa fa-edit"></i> Edit
+                </button>
+            </div>
+        </div>    
+        {% endif %}
+        {% if "activate" not in buttons.hidden %}
+        <div class="col-xs-6 col-sm-3">      
+            <div class="vert-pad">
+                {% if target_player.active == "0" %}
+                    <button type="button" class="btn btn-block btn-md btn-warning js-user-activate" data-id="{{target_player.id}}">
+                        <i class="fa fa-bolt"></i> Activate
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        {% if "enable" not in buttons.hidden %}
+        <div class="col-xs-6 col-sm-3">      
+            <div class="vert-pad">
+                {% if target_player.enabled == "1" %}
+                    <button type="button" class="btn btn-block btn-md btn-warning js-user-disable" data-id="{{target_player.id}}">
+                        <i class="fa fa-minus-circle"></i> Disable
+                    </button>
+                {% else %}
+                    <button type="button" class="btn btn-block btn-md btn-warning js-user-enable" data-id="{{target_player.id}}">
+                        <i class="fa fa-plus-circle"></i> Enable
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        {% if "delete" not in buttons.hidden %}
+        <div class="col-xs-6 col-sm-3">  
+            <div class="vert-pad">
+                <button type="button" class="btn btn-block btn-md btn-danger js-user-delete" data-id="{{target_player.id}}" data-user_name="{{target_player.user_name}}" data-toggle="modal">
+                    <i class="fa fa-trash-o"></i> Delete
+                </button>
+            </div>
+        </div>
+        {% endif %}
+        {% if "cancel" not in buttons.hidden %}        
+        <div class="col-xs-4 col-sm-3 pull-right">
+            <div class="vert-pad">
+                <button type="button" class="btn btn-block btn-lg btn-link" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</form>
+<script>
+// Load the validator rules for this form
+var validators = {{validators | raw}};
+</script>

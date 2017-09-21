@@ -1,0 +1,58 @@
+<div class='panel panel-primary'>
+    <div class='panel-heading'>
+        <h3 class='panel-title'><i class='{{icon}}'></i> Payment History for {{target_user.user_name}}</h3>
+    </div>
+    <div class='panel-body'>
+        {% if target_payment_info is empty %}
+            <div class="row">
+                <div class="col-md-12">
+                    There is no data to show at this time. Here you can see the payment information of the user
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12">
+                    Total Number of Players: {{target_payment_info.num_players}}<br/>
+                    Total Amount: {{target_payment_info.total_amount}}<br/>
+                    Total Amount Paid: {{target_payment_info.amount_paid}}<br/>
+                    Total Amount Due: {{target_payment_info.amount_due}}<br/>
+                </div>
+            </div>
+        {% endif %}
+        {% if target_payment_history is empty %}
+            <div class="row">
+                <div class="col-md-12">
+                    There is no data to show at this time. Here you can see the payment history of the user
+                </div>
+            </div>
+        {% else %}                                        
+            <div class="row">                
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="">Date</th>
+                                    <th class="">Amount Paid</th>
+                                    <th class="">Payment Method</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for payment_history in target_payment_history %}
+                                <tr>
+                                    <td>{{payment_history.payment_date}}</td>
+                                    <td>{{payment_history.amount_paid}}</td>
+                                    <td>{{payment_history.payment_method}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+    
+
+            

@@ -1,0 +1,93 @@
+<form name="makeapick" method="post" action="{{form_action}}">
+	<div id="form-alerts">
+	</div>
+        {% if make_pick_alerts is not empty %}
+        <div class="alert alert-danger" id="make-pick-alerts">
+            {{make_pick_alerts}}
+	</div>
+        {%endif%}
+	<div class="row">
+		{% if 'week_id' not in fields.hidden %}
+		<div class="col-sm-6 col-md-6">
+			<div class="form-group">
+				<label for="input_week">Week</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-language"></i></span>
+					<select id="input_week" class='form-control select2' name="week_id" {% if 'week_id' in fields.disabled %}disabled{% endif %}>											
+						
+							<option selected="selected" value="{{current_week}}">{{current_week}}</option>
+						
+					</select>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		{% if 'player_id' not in fields.hidden %}
+		<div class="col-sm-6 col-md-12">
+			<div class="form-group">
+				<label for="input_player">Player</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-language"></i></span>
+					<select id="input_player" class='form-control select2 selectTeamsPerPlayer' name="player_id" {% if 'player_id' in fields.disabled %}disabled{% endif %}>
+					{% if game_players is not empty %}	
+							<option value="-1">Select Player</option>
+						{% for player in game_players %}
+							<option value="{{player.id}}">{{player.player_name}}</option>
+						{% endfor %}
+					{% else %}
+							<option value="-1">No Active Players Available</option>
+					{%endif%}
+					</select>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		{% if 'team_id' not in fields.hidden %}
+		<div class="col-sm-6 col-md-6">
+			<div class="form-group">
+				<label for="input_team">Team</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-language"></i></span>
+					<select id="input_team" class='form-control selectTeams' name="team_id" {% if 'team_id' in fields.disabled %}disabled{% endif %}>
+						<option value="-1">Select Team</option>
+						{% for team in game_teams %}
+							<option value="{{team.id}}">{{team.full_name}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+		</div>
+		{% endif %}							
+	</div><br>
+	<div class="row">
+		{% if "submit" not in buttons.hidden %}
+		<div class="col-xs-8 col-sm-4">
+			<div class="vert-pad">
+				<button type="submit" class="btn btn-block btn-lg btn-success" data-loading-text="Please wait...">
+					{{submit_button}}
+				</button>
+			</div>          
+		</div>
+		{% endif %}
+		{% if "edit" not in buttons.hidden %}  
+		<div class="col-xs-6 col-sm-3">
+			<div class="vert-pad">
+				<button type="button" class="btn btn-block btn-md btn-primary js-make-pick-edit" data-id="{{target_user.id}}" data-toggle="modal">
+					<i class="fa fa-edit"></i> Edit
+				</button>
+			</div>
+		</div>    
+		{% endif %}
+		{% if "cancel" not in buttons.hidden %}        
+		<div class="col-xs-4 col-sm-3 pull-right">
+			<div class="vert-pad">
+				<button type="button" class="btn btn-block btn-lg btn-link" data-dismiss="modal">Cancel</button>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+</form>
+<script>
+// Load the validator rules for this form
+var validators = {{validators | raw}};
+</script>

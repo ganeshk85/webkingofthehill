@@ -1,0 +1,118 @@
+<div id='{{box_id}}' class='modal fade'>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+                <h4 class='modal-title'>{{box_title}}</h4>
+            </div>
+            <div class='modal-body'>
+                <div class="row">
+                    <div class="col-md-12">	
+                        {% if players is not empty %}
+                        <div class="table-responsive">
+                            <table class="tablesorter table table-bordered table-hover table-striped tablesorter-bootstrap">
+                                <thead>
+                                    <tr>
+                                        <th class="">Player/Info</th>                                        
+                                        <th class="">User/Info</th>                                        
+                                        <th>Status/Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>                                        
+                                    {% for user in players %}
+                                    <tr>
+                                        <td data-text="{{user.player_name}}">                                        
+                                            {{user.player_name}}                                        
+                                        </td>                                          
+                                        <td>
+                                            <strong>
+                                                <a href="{{site.uri.public}}/users/u/{{user.primary_user_id}}">{{user.user_name}} ({{user.display_name}})</a>
+                                            </strong>										
+                                        </td>                                          
+                                        <td>
+                                            <div class="btn-group">
+                                                {% if user.enabled == 0 %}
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                        {% if (user.enabled == 0) and (user.lost == 1) %}
+                                                            Player Lost
+                                                        {% else %}
+                                                            Disabled
+                                                        {% endif %}    
+                                                        {%if user.enabled == 1 %}
+                                                        <!--<span class="caret"></span>-->
+                                                        {% endif %}
+                                                    </button>
+                                                {% elseif user.active == 0 %}
+                                                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">                                                        
+                                                        {% if (user.active == 0) and (user.payment_status == 0) %}
+                                                            Payment Required
+                                                        {% else %}
+                                                            Not Active
+                                                        {% endif %}
+                                                        <!--<span class="caret"></span>-->
+                                                    </button>            
+                                                {% else %}
+                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                        Active
+                                                        <!--<span class="caret"></span>-->
+                                                    </button>            
+                                                {% endif %}
+                                                {%if user.enabled == 1 %}
+                                                <!--<ul class="dropdown-menu" role="menu">                                                
+                                                    <li>
+                                                        <a href="#" data-id="{{user.id}}" class="js-player-edit" data-target="#dialog-player-edit" data-toggle="modal">
+                                                        <i class="fa fa-edit"></i> Edit player
+                                                        </a>
+                                                    </li>
+                                                    <li>                                                    
+                                                    {% if (user.enabled == 1) and (user.active != 0) %}
+                                                        <a href="#" data-id="{{user.id}}" class="js-player-disable">
+                                                        <i class="fa fa-minus-circle"></i> Disable player
+                                                        </a>
+                                                    {% elseif (user.enabled == 0) and (user.active != 0)%}
+                                                        <a href="#" data-id="{{user.id}}" class="js-player-enable">
+                                                        <i class="fa fa-plus-circle"></i> Enable player
+                                                        </a> 
+                                                    {% endif %}                                                    
+                                                    </li>                                                    
+                                                    <li>
+                                                        <a href="#" data-id="{{user.id}}" class="js-player-delete" data-player_name="{{user.player_name}}" data-target="#dialog-player-delete" data-toggle="modal">
+                                                        <i class="fa fa-trash-o"></i> Delete player</a>
+                                                    </li>                                                    
+                                                </ul>-->
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}                                    
+                                </tbody>
+                            </table>
+                            <div class="pager pager-lg tablesorter-pager">
+                                <span class='pager-control first' title='First page'><i class='fa fa-angle-double-left'></i></span>
+                                <span class='pager-control prev' title='Previous page'><i class='fa fa-angle-left'></i></span>
+                                <span class='pagedisplay'></span> <!-- this can be any element, including an input -->
+                                <span class='pager-control next' title='Next page'><i class='fa fa-angle-right'></i></span>
+                                <span class='pager-control last' title= 'Last page'><i class='fa fa-angle-double-right'></i></span>
+                                <br><br>
+                                Jump to Page: <select class='gotoPage'></select>
+                                &bull; Show: <select class='pagesize'>
+                                    <option value='2'>2</option>
+                                    <option value='5'>5</option>
+                                    <option value='10'>10</option>
+                                    <option value='100'>100</option>
+                                </select>
+                            </div>
+                        </div>
+                        {% else %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                        All Players had selected their Teams in this week or No Players available.
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

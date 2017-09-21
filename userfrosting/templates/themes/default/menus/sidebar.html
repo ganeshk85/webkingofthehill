@@ -1,0 +1,82 @@
+<div class="sidebar-nav navbar-collapse">
+    <ul class="nav" id="side-menu">
+        <li class="sidebar-search">
+            <div class="input-group custom-search-form">
+                <input type="text" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                <button class="btn btn-default" type="button">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+            </div>
+            <!-- /input-group -->
+        </li>
+        <!--<li>
+            <a href="{{site.uri.public}}/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+        </li>-->        
+		{% if checkAccess('uri_players') %}
+        <li>
+            <a href="{{site.uri.public}}/players"><i class="fa fa-user fa-fw"></i> Players</a>
+        </li>
+        {% endif %}
+	{% if checkAccess('uri_game') %}
+        <li>
+            <a href="{{site.uri.public}}/game/schedule"><i class="fa fa-calendar fa-fw"></i> Game Schedule</a>
+        </li>
+        <li>
+            <a href="{{site.uri.public}}/game/makeapick"><i class="fa fa-soccer-ball-o fa-fw"></i> Make a Pick</a>
+        </li>
+        <li>
+            <a href="{{site.uri.public}}/game/pastweek"><i class="fa fa-archive fa-fw"></i> Past Weeks Picks</a>
+        </li>
+        <li>
+            <a href="#"><i class="fa fa-external-link fa-fw"></i> External Links<span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">                
+                <li>
+                    <a href="http://www.espnfc.us/" target="_blank"><i class="fa fa-external-link-square fa-fw"></i> ESPN</a>
+                </li>                
+                <li>
+                    <a href="http://www.rotoworld.com/" target="_blank"><i class="fa fa-external-link-square fa-fw"></i> RotoWorld</a>
+                </li>                
+            </ul>            
+        </li>
+        {% endif %}
+	{% if checkAccess('uri_rankings') %}
+        <li>
+            <a href="{{site.uri.public}}/game/rankings"><i class="fa fa-bar-chart fa-fw"></i> Current Rankings </a>
+        </li>
+        {% endif %}        
+        {% if checkAccess('uri_stats') %}
+        <li>
+            <a href="{{site.uri.public}}/game/stats"><i class="fa fa-pie-chart fa-fw"></i> Statistics </a>
+        </li>
+        {% endif %}        
+        {% if checkAccess('uri_users') %}
+        <li>
+            <a href="{{site.uri.public}}/users"><i class="fa fa-users fa-fw"></i> {{ translate("MENU_USERS") }}</a>
+        </li>
+        {% endif %}        
+        {% if checkAccess('uri_site_settings') or checkAccess('uri_manage_groups') %}
+        <li>
+            <a href="#"><i class="fa fa-wrench fa-fw"></i> {{ translate("MENU_CONFIGURATION") }}<span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">
+                {% if checkAccess('uri_site_settings') %}
+                <li>
+                    <a href="{{site.uri.public}}/config/settings"><i class="fa fa-globe fa-fw"></i> {{ translate("MENU_SITE_SETTINGS") }}</a>
+                </li>
+                <li>
+                    <a href="{{site.uri.public}}/config/settings/menu"><i class="fa fa-th-list fa-fw"></i> Menu Options</a>
+                </li>
+                {% endif %}
+                {% if checkAccess('uri_manage_groups') %}
+                <li>
+                    <a href="{{site.uri.public}}/groups"><i class="fa fa-tags fa-fw"></i> {{ translate("MENU_GROUPS") }}</a>
+                </li>
+                {% endif %}
+            </ul>
+            <!-- /.nav-second-level -->
+        </li>
+        {% endif %}
+    </ul>
+</div>
+<!-- /.sidebar-collapse -->
