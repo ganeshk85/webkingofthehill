@@ -67,8 +67,8 @@
             'db'            =>  [
                 'db_host'  => 'localhost',
                 'db_name'  => 'webkingo_kingofthehill',
-                'db_user'  => 'webkingo_root',
-                'db_pass'  => 'Koth123',
+                'db_user'  => 'root',
+                'db_pass'  => '',
                 'db_prefix'=> 'kh_'
             ],
             'user_id_guest'  => 0,
